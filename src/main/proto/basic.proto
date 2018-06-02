@@ -1,0 +1,25 @@
+syntax = 'proto3';
+
+option java_multiple_files = true;
+option java_package = "com.tao.example.grpc.basic";
+option java_outer_classname = "BasicGprc";
+option objc_class_prefix = "HLW";
+
+package basic;
+
+service Grpc {
+
+    rpc calculation(GrpcRequest) returns(GrpcResponse) {}
+
+}
+
+message GrpcRequest {
+    string num1 = 1;
+    string num2 = 2;
+}
+
+message GrpcResponse {
+    string sum = 1;
+    string sub = 2;
+    string product = 3;
+}
