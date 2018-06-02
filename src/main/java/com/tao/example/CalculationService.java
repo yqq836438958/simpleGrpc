@@ -13,13 +13,21 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CalculationService {
+  private static int SERVER_PORT = 8888;
+
   private static final Logger logger = Logger.getLogger(CalculationService.class.getName());
 
   private Server server;
 
+  /**
+   * 启动服务
+   *
+   * @param port
+   * @throws IOException
+   */
   private void start(int port) throws IOException {
     server = ServerBuilder.forPort(port).addService(new BasicCalImpl()).build().start();
-    logger.log(Level.WARNING, "服务已经启动,监听端口：" + port);
+    logger.log(Level.INFO, "服务已经启动,监听端口：" + port);
     Runtime.getRuntime()
         .addShutdownHook(
             new Thread(
@@ -30,20 +38,21 @@ public class CalculationService {
                 }));
   }
 
+  /** 关闭服务 */
   public void stop() {
     Optional.of(server).map(s -> s.shutdown()).orElse(null);
   }
 
-  public void blockUnitShudown() throws InterruptedException {
+  public void blockUnitShutdown() throws InterruptedException {
     if (server != null) {
       server.awaitTermination();
     }
   }
 
   public static void main(String[] args) throws IOException, InterruptedException {
-    CalculationService service  = new CalculationService();
-    service.start(8888);
-    service.blockUnitShudown();
+    CalculationService service = new CalculationService();
+    service.start(SERVER_PORT);
+    service.blockUnitShutdown();
   }
 
   static class BasicCalImpl extends GrpcGrpc.GrpcImplBase {
