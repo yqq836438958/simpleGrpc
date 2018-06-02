@@ -13,7 +13,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class CalculationService {
-  private static int SERVER_PORT = 8888;
+  protected static int SERVER_PORT = 8888;
 
   private static final Logger logger = Logger.getLogger(CalculationService.class.getName());
 
@@ -64,7 +64,7 @@ public class CalculationService {
 
       GrpcResponse response =
           GrpcResponse.newBuilder()
-              .setSub(String.valueOf(num1 + num2))
+              .setSum(String.valueOf(num1 + num2))
               .setSub(String.valueOf(num1 - num2))
               .setProduct(String.valueOf(num1 * num2))
               .build();
